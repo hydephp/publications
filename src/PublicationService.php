@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Hyde\Publications;
 
 use Hyde\Hyde;
-use Hyde\Foundation\Facades\Files;
 use Hyde\Support\Filesystem\MediaFile;
 use Hyde\Publications\Models\PublicationPage;
 use Hyde\Publications\Models\PublicationTags;
@@ -52,7 +51,7 @@ class PublicationService
      */
     public static function getMediaForType(PublicationType $publicationType): Collection
     {
-        return Files::getMediaFiles()->filter(function (MediaFile $file) use ($publicationType): bool {
+        return collect(MediaFile::all())->filter(function (MediaFile $file) use ($publicationType): bool {
             return Str::startsWith($file->getPath(), Hyde::getMediaDirectory().'/'.$publicationType->getDirectory());
         })->keys()->toBase();
     }

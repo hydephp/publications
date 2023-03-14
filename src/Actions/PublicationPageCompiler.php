@@ -8,6 +8,7 @@ use Hyde\Framework\Actions\AnonymousViewCompiler;
 use Hyde\Publications\Models\PublicationListPage;
 use Hyde\Publications\Models\PublicationPage;
 use Illuminate\Support\Facades\View;
+
 use function str_ends_with;
 
 /**
@@ -51,7 +52,7 @@ class PublicationPageCompiler
     protected function compileView(string $template, array $data): string
     {
         return str_ends_with($template, '.blade.php')
-            ? AnonymousViewCompiler::call($this->getTemplateFilePath($template), $data)
+            ? AnonymousViewCompiler::handle($this->getTemplateFilePath($template), $data)
             : View::make($template, $data)->render();
     }
 

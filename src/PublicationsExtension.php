@@ -18,6 +18,7 @@ use Hyde\Publications\Models\PublicationType;
 use Hyde\Support\Filesystem\SourceFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+
 use function glob;
 use function range;
 use function str_ends_with;
@@ -71,7 +72,7 @@ class PublicationsExtension extends HydeExtension
 
     protected function discoverPublicationPages(PageCollection $instance): void
     {
-        Files::getSourceFiles(PublicationPage::class)->each(function (SourceFile $file) use ($instance): void {
+        Files::getFiles(PublicationPage::class)->each(function (SourceFile $file) use ($instance): void {
             $instance->addPage(PublicationPage::parse(Str::before($file->getPath(), PublicationPage::fileExtension())));
         });
 

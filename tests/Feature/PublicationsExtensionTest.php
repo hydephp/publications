@@ -79,12 +79,12 @@ class PublicationsExtensionTest extends TestCase
 
         $booted = FileCollection::init(Hyde::getInstance())->boot();
 
-        $files = $booted->getAllSourceFiles()->keys()->toArray();
+        $files = $booted->getFiles()->keys()->toArray();
         $this->assertSame(['publication/foo.md'], $files);
 
-        $this->assertInstanceOf(SourceFile::class, $booted->getSourceFiles()->get('publication/foo.md'));
+        $this->assertInstanceOf(SourceFile::class, $booted->getFiles()->get('publication/foo.md'));
         $this->assertEquals(new SourceFile('publication/foo.md', PublicationPage::class),
-            $booted->getSourceFiles()->get('publication/foo.md')
+            $booted->getFiles()->get('publication/foo.md')
         );
     }
 
@@ -98,7 +98,7 @@ class PublicationsExtensionTest extends TestCase
 
         $booted = FileCollection::init(Hyde::getInstance())->boot();
 
-        $files = $booted->getAllSourceFiles()->keys()->toArray();
+        $files = $booted->getFiles()->keys()->toArray();
         $this->assertSame(['publication/foo.md', 'publication2/bar.md'], $files);
     }
 
@@ -107,11 +107,9 @@ class PublicationsExtensionTest extends TestCase
         $this->directory('_media/publication');
         $this->file('_media/publication/foo.jpg', 'foo');
 
-        $booted = FileCollection::init(Hyde::getInstance())->boot();
-
-        $files = $booted->getMediaFiles()->keys()->toArray();
-        $this->assertSame(['_media/app.css', '_media/publication/foo.jpg'], $files);
-        $this->assertInstanceOf(MediaFile::class, $booted->getMediaFiles()->get('_media/publication/foo.jpg'));
+        $files = collect(MediaFile::all());
+        $this->assertSame(['app.css', 'publication/foo.jpg'], MediaFile::files());
+        $this->assertInstanceOf(MediaFile::class, $files->get('publication/foo.jpg'));
     }
 
     public function test_base_publication_pages_are_discovered()

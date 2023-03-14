@@ -11,6 +11,7 @@ use Hyde\Markdown\Models\Markdown;
 use Hyde\Pages\Concerns;
 use Hyde\Publications\Actions\PublicationPageCompiler;
 use Illuminate\Support\Str;
+
 use function str_starts_with;
 
 /**
@@ -66,6 +67,11 @@ class PublicationPage extends Concerns\BaseMarkdownPage
             markdown: $document->markdown,
             type: PublicationType::get(Str::before($identifier, '/'))
         );
+    }
+
+    public static function pathToIdentifier(string $path): string
+    {
+        return Str::before($path, static::fileExtension());
     }
 
     protected function renderComponent(): string
